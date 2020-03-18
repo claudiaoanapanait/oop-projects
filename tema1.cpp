@@ -56,24 +56,26 @@ polinom::~polinom() {
 
 polinom operator+(polinom const &vect1, polinom const &vect2) {
     polinom r(max(vect1.length, vect2.length), false);
-    polinom const &p = vect1.length>vect2.length ? vect1 : vect2;
+    polinom const &p = vect1.length > vect2.length ? vect1 : vect2;
     for (int i = 0; i < min(vect1.length, vect2.length); i++)
         r.vect[i] = vect1.vect[i] + vect2.vect[i];
-    for (int j = min(vect1.length, vect2.length); j < r.length; ++j) {
-        r.vect[j]=p.vect[j];
-    }
+    for (int j = min(vect1.length, vect2.length); j < r.length; ++j)
+        r.vect[j] = p.vect[j];
     return r;
 }
 
 polinom operator-(const polinom &vect1, const polinom &vect2) {
-    polinom r(max(vect1.length, vect2.length));
+    polinom r(max(vect1.length, vect2.length), false);
+    polinom const &p = vect1.length > vect2.length ? vect1 : vect2;
     for (int i = 0; i <= min(vect1.length, vect2.length) - 1; i++)
         r.vect[i] = vect1.vect[i] - vect2.vect[i];
+    for (int j = min(vect1.length, vect2.length); j < r.length; ++j)
+        r.vect[j] = p.vect[j];
     return r;
 }
 
 polinom operator*(const polinom &vect1, const polinom &vect2) {
-    polinom r(vect1.length * vect2.length);
+    polinom r((vect1.length * vect2.length), false);
     for (int i = 0; i <= vect1.length - 1; i++)
         for (int j = 0; j <= vect2.length - 1; j++) {
             r.vect[i + j] = r.vect[i + j] + vect1.vect[i] * vect2.vect[j];
@@ -101,9 +103,12 @@ int main() {
     polinom vect1(n);
     polinom vect2(m);
     polinom vect3 = vect1 + vect2;
-//    polinom vect4 = vect1 - vect2;
-//    polinom vect5 = vect1 * vect2;
+    polinom vect4 = vect1 - vect2;
+    polinom vect5 = vect1 * vect2;
     double suma = calculpct(vect1, x);
-    cout << suma;
+    cout << "Suma=" << suma << endl;
+    cout << vect3 << endl;
+    cout << vect4 << endl;
+    cout << vect5;
     return 0;
 }
