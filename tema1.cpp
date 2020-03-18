@@ -40,6 +40,9 @@ polinom::polinom(int len, bool citire) {
     if (citire)
         for (i = 0; i < len; i++)
             cin >> vect[i];
+    else
+        for (i = 0; i < len; i++)
+            vect[i] = 0;
 }
 
 polinom::polinom(polinom const &vect2) {
@@ -65,8 +68,10 @@ polinom operator+(polinom const &vect1, polinom const &vect2) {
 }
 
 polinom operator-(const polinom &vect1, const polinom &vect2) {
+
     polinom r(max(vect1.length, vect2.length), false);
     polinom const &p = vect1.length > vect2.length ? vect1 : vect2;
+
     for (int i = 0; i <= min(vect1.length, vect2.length) - 1; i++)
         r.vect[i] = vect1.vect[i] - vect2.vect[i];
     for (int j = min(vect1.length, vect2.length); j < r.length; ++j)
@@ -75,7 +80,9 @@ polinom operator-(const polinom &vect1, const polinom &vect2) {
 }
 
 polinom operator*(const polinom &vect1, const polinom &vect2) {
+
     polinom r((vect1.length * vect2.length), false);
+
     for (int i = 0; i <= vect1.length - 1; i++)
         for (int j = 0; j <= vect2.length - 1; j++) {
             r.vect[i + j] = r.vect[i + j] + vect1.vect[i] * vect2.vect[j];
@@ -84,6 +91,7 @@ polinom operator*(const polinom &vect1, const polinom &vect2) {
 }
 
 double calculpct(const polinom &vect1, double x) {
+
     double suma = 0;
     for (int i = vect1.length - 1; i >= 0; i--)
         suma = suma + (pow(x, i) * vect1.vect[i]);
